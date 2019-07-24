@@ -183,3 +183,109 @@ $"The total sum of grades is {result:N1}");
 ```:N1``` means that result shoud be rounded to 1 decimal place. 
 
 
+****
+
+# Working with classes and objects
+
+We create classes to deal with complexity and encapsulate some behaviour. 
+
+## Syntax to create a class
+``` c#
+Class NameOfClass{
+
+}
+```
+Namespaces allow to separate classes from third-party code and avoid conflicts. 
+
+## One class per file
+It is not mandatory but it is good convetnion. 
+
+
+File with new class should look like this
+``` c#
+namespace GradeBook
+{
+    public class Book
+    {
+        
+    }
+}
+```
+
+## Defining methods and fields
+``` c#
+namespace GradeBook
+{
+    public class Book
+    {
+
+        public void AddGrade(double grade){
+            
+        }
+
+        grades = List<dobule>;
+        
+    }
+}
+```
+
+We can not use implicit typing (var) to create a field. 
+
+## Constructor
+
+Method that constructs an object. 
+
+Explicit constructor - it appears in a class.
+
+It has got the same name as the class. It has no return type. 
+
+Inside we can initialize fields. 
+
+``` c#
+class Book
+{
+    public Book()
+    {
+        grades = new List<double>();
+    }
+}
+```
+
+Encapsulation - hiding complexity. Hiding detials that are unimportant on certain level. 
+
+
+## Access modifiers
+keywords like 'public'
+
+public - code outside this class can access this method / field. 
+
+Normally we do not want to give direct access to our fields. We want to control modifying state of objects. For example to check validation logic. 
+ 
+private - available only inside a class
+
+
+## this keyword
+Let's asssume that we haveg got a private field name. We want user to provide this name when he creates an object. We use constructor parameter to do that. In a constructor we assign a value from parametr name to private field name. It looks like this:
+``` c#
+name = name;
+```
+It makes no sense in this form. That's the reason we use this keyword. It allows us to assign value in a constructor to object fields. It should look like this:
+``` c#
+this.name = name;
+```
+
+## static keyword 
+What does it mean for a class memeber to be static?
+
+Statics are not associated with an object instance. 
+
+We can not invoke it with an object reference. 
+We can invoke it only with type referrence.
+
+## commenting
+
+ctrl +k  + k + c -comment 
+ctrl + k _ k + u - uncomment 
+
+## Gereating method from invokes
+If I invoke a method that doesn't exist I can place a cursor on its name and press ctrl + . to let VS Code create a method. 
