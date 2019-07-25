@@ -289,3 +289,72 @@ ctrl + k _ k + u - uncomment
 
 ## Gereating method from invokes
 If I invoke a method that doesn't exist I can place a cursor on its name and press ctrl + . to let VS Code create a method. 
+
+
+# Unit tests
+
+Benefits
+* verify 
+* investigate (when things go wrong)
+* small units of code
+* test runner 
+* automation
+
+## xUnit.net
+Library to run unit tests. It's not a part of .net
+
+We should write oue test in separate project and folder. 
+
+We can create such a project from command line. 
+```
+mkdir Gradebook.Tests
+cd Gradebook.Tests
+dotnet new xunit
+```
+
+``` c#
+[Fact]
+public void Test1()
+{
+
+}
+```
+[Fact] is an attribute attached to Test1 method. 
+
+## Running test from CLI
+```
+dotnet test
+```
+It should be invoke in test project folder. 
+
+
+## Simple example 
+``` c#
+[Fact]
+public void Test1()
+{
+    // arrange 
+    var x = 5;
+    var y = 2;
+    var expected = 7;
+
+    // act 
+    var actual = x * y;
+
+    // assert 
+    Assert.Equal(expected, actual);
+}
+```
+There are typically 3 sections:
+* arrange 
+* act
+* assert
+
+## Adding reference to actual projest 
+To use classes from our main project we need to use a refference. We can do it in VisualStudio or in a CLI. 
+
+```
+dotnet add reference  ..\..\src\GradeBook\GradeBook.csproj
+```
+
+
