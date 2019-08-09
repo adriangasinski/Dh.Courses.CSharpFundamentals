@@ -287,7 +287,7 @@ We can invoke it only with type referrence.
 ctrl +k  + k + c -comment 
 ctrl + k _ k + u - uncomment 
 
-## Gereating method from invokes
+## Generating method from invokes
 If I invoke a method that doesn't exist I can place a cursor on its name and press ctrl + . to let VS Code create a method. 
 
 
@@ -303,7 +303,7 @@ Benefits
 ## xUnit.net
 Library to run unit tests. It's not a part of .net
 
-We should write oue test in separate project and folder. 
+We should write our test in separate project and folder. 
 
 We can create such a project from command line. 
 ```
@@ -356,5 +356,82 @@ To use classes from our main project we need to use a refference. We can do it i
 ```
 dotnet add reference  ..\..\src\GradeBook\GradeBook.csproj
 ```
+
+
+# Reference types and Value types
+
+Reference TYpe 
+
+everytime we use a class we are uisng reference type. 
+
+``` c#
+var b = new Book("Grades");
+```
+
+variable b is only a reference to address in memory where book object is stored.
+
+
+
+Value type 
+``` c#
+var x = 3
+```
+
+integer type is a value type. 
+instead of storing reference the exact value is stored. 
+
+same for floats and doubles.
+
+
+## Solution file 
+solution file  keeps track for several projects.
+
+to create solution file use:
+``` 
+dotnet new sln 
+```
+
+to add project to solution 
+```
+dotnet sln add src\GradeBook\GradeBook.csproj
+dotnet sln add test\GradeBook.Tests\GradeBook.Tests.csproj
+```
+Now when we use dotnet build or dotnet test all projects in solutions are taken.
+
+soultion is created in folder gradebook. It's a place whwere folders src and test exist.
+
+
+## Passing parameters by values 
+
+When you pass a parameter to a method you pass a value not a reference. (unless there is a special keyword)
+
+## Passing parameters by reference 
+When we want to pass parameter by reference (to be able to change or overwrite original object that is passed) we can use ref keyword. We should use ref keyword in method definition however we should also use ref keyword when we invoke this method to be aware thata we are doing this. 
+
+There is also 'out' parameter. It works same as 'ref' but parameter must be initialized inside the method. 
+
+
+## How to check we are working with reference or value type?
+
+When you are using class - this will be reference. 
+When you are using struct - this will be value. 
+
+To check:
+* place a cursor on a type 
+* press f12 - to enable meta data view 
+* check if a type is defined using class / struct 
+
+Special case - string 
+* is defined as a classs - is a reference type. 
+* it behaves like a value type
+
+## Garbage collector
+We do not have to kill/ free object after we finished using it. GC makes it for us. 
+
+
+
+
+
+
 
 
