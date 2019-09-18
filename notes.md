@@ -290,6 +290,7 @@ ctrl + k _ k + u - uncomment
 ## Generating method from invokes
 If I invoke a method that doesn't exist I can place a cursor on its name and press ctrl + . to let VS Code create a method. 
 
+---
 
 # Unit tests
 
@@ -357,7 +358,7 @@ To use classes from our main project we need to use a refference. We can do it i
 dotnet add reference  ..\..\src\GradeBook\GradeBook.csproj
 ```
 
-
+---
 # Reference types and Value types
 
 Reference TYpe 
@@ -428,10 +429,210 @@ Special case - string
 ## Garbage collector
 We do not have to kill/ free object after we finished using it. GC makes it for us. 
 
+---
+
+# Controlling the flow of execution
+
+## branching statements
+``` c#
+if (bool condition)
+{
+    // do some actions
+}
+else 
+{
+    // do something different 
+}
+
+```
+
+Instead of nesting ifs it is better to use logical operators in condition 
+
+boolean operators 
+* and - &&
+* or - ||
+* equal - == - dangerous with floating points!
 
 
+## Looping statements
+
+foreach 
+``` c#
+foreach(var grade in grades)
+{
+    // some actions 
+}
+```
+
+do while 
+``` c#
+do 
+{
+
+} while (condition); 
+```
 
 
+while 
+``` c#
+while (condition)
+{
+
+}
+```
 
 
+for loop 
+```c#
+for(var index = 0; index < grades.Count; index += 1)
+{
+    
+}
+
+```
+
+### Jumping with break and continue
+
+break
+```c#
+for(var index = 0; index < grades.Count; index += 1)
+{
+    if (grades[index] == 42.1)
+    {
+        break;
+    }
+    result.Sum += grades[index];
+}
+```
+for loop will be broken. Next iterations will not execute. 
+sum will not be incremented
+
+continue 
+```c#
+for(var index = 0; index < grades.Count; index += 1)
+{
+    if (grades[index] == 42.1)
+    {
+        continue;
+    }
+    result.Sum += grades[index];
+}
+```
+This iteration will be skipped and then next itereations will be executed.
+sum will not be incremented.
+
+
+go to 
+```c#
+for(var index = 0; index < grades.Count; index += 1)
+{
+    if (grades[index] == 42.1)
+    {
+        go to done;
+    }
+    result.Sum += grades[index];
+}
+
+done:
+```
+Go to is not commonly used theese days. We should not use that. 
+
+
+### switch statement
+```c#
+switch(letter)
+{
+    case 'A':
+        AddGrade(90);
+        break;
+
+    case 'B':
+        AddGrade(80);
+        break;
+
+    case 'C':
+        AddGrade(70);
+        break;
+
+    case 'D':
+        AddGrade(60);
+        break;
+
+    default:
+        AddGrade(0);
+        break;
+}
+```
+
+
+### pattern matching with switch statement
+From C# v.7.0 switch statement became much more powerful because of pattern matching. 
+
+```c#
+switch(result.Average)
+{
+    case var d when d >= 90.0:
+        result.Letter = 'A';
+        break;
+    
+    case var d when d >= 80.0:
+        result.Letter = 'B';
+        break;
+    
+    default:
+        result.Letter = 'F';
+        break;
+}
+```
+
+## Throwing exceptions
+We can throw predefined exceptions. There is also a way to create our own exceptions but this is not covered in the course. 
+
+To throw an exception we use code:
+```c#
+throw new ArgumentException($"Ivalid {nameof(grade)}");
+```
+nameof function gives the string representation of argument name. It is better to use nameof instead of hardcoding the name of argument because if I change it in the future I will have to change this message too. 
+
+
+## Catching exceptions
+We can catch exceptions using try catch blocks
+```c#
+try 
+{
+    var grade = double.Parse(input);
+}
+catch(Exception ex)
+{
+    Console.WriteLine(ex.Message);
+    // if we want to rethrow to catch it in other place or to terminate the program 
+    //  we can use throw statement
+    // throw;
+}
+```
+
+We can alse define the type of exceptions we want to catch. 
+```c#
+try
+{
+
+}
+catch(ArgumentException ex)
+{
+    //this code will run only if the type of exception is argument exception
+}
+catch(FormatException ex)
+{
+    // handling format exception
+}
+```
+This way we can handle exceptions we are aware of and let others to terminate the progam. 
+
+
+Finally block
+```c#
+finally {
+    //this code will execute regardless the exceptions occured or not
+}
+```
 
