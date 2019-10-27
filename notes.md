@@ -636,3 +636,233 @@ finally {
 }
 ```
 
+
+
+# Building types 
+
+## Overloading methods
+Method signature consists of method name and prameters' types. So that we can define two methods with the same name but different parameters types. Compiler will choose the correct one based on method signature. 
+
+Return type is not a part of method signature. We can not have two methods with the same name and parameters types but different return type. 
+
+overloading - depending on a parameters types different method is called.
+
+## Properties
+Another type of a member we can add to the class is a property. 
+
+It is very similar to a field in a sense that it can encapsulate state and store data of an object. 
+But property has got a different syntax and some powerful features. 
+
+There are several approaches that you can declare a property for a C# class. 
+
+Long hand sytnax
+``` c#
+public string Name 
+{
+    get
+    {
+        return name;
+    }
+    set
+    {
+        if (!String.IsNullOrEmpty(value))
+        {
+            name = value;
+        }
+    }
+}
+
+private string name;
+```
+
+So a propperty is a way to encapsulate the state of an object but it gives us opportunity to control what is going on when we set or get value of it.
+
+
+Another way to declare a property
+``` c#
+public string Name 
+{
+    get; set;
+}
+```
+It is known as an auto-property in C#.
+
+What is the difference between an auto-property and having just a public field?
+
+There are some differences in C# when it comes to reflection and serialization. 
+
+Another difference - we can apply another access modifiers to get and set. 
+
+
+For example
+``` c#
+public string Name 
+{
+    get; 
+    private set;
+}
+```
+
+We can get the value but we can't set it from the oustide of a class. 
+
+
+
+## Defining readonly members
+
+### readonly keyword
+It causes that only two places where we can set the value of a memeber is an initialization and constructor. 
+
+
+Example of a readolny field 
+``` c#
+readonly string category = "Science";
+```
+
+
+### const keyword
+
+Value of a constant field can be set only in the initialization.
+
+
+Example of a const field
+``` c#
+const string category = "Science";
+```
+
+It can also be public
+``` c#
+public const string CATEGORY = "Science";
+```
+
+It is a publicly exposed but the only thing that can be done with it is to read it. 
+
+You can access constant method only as a static member of a class. 
+So you cant reference object. You need to reference a class. 
+
+
+
+## Events 
+They are not completely covered in this course for 2 reasons:
+1. Events not in style with server framewoks
+2. Events are hard to understand
+
+However there are described beacuse:
+1. Events are popular in forms and desktop programming. 
+2. Events build on top of delegates.
+
+
+
+## Deleagtes
+Delagete describes what a method will look like. 
+
+It is an abstract representation for methods. 
+It describes types of parameters and type of a return. 
+
+Example 
+``` c#
+public delegate string WriteLogDelegate(string logMessage);
+```
+
+How do we write a method that will match with a delgate type. 
+
+``` c#
+
+string ReturnMessage(string message)
+{
+    return message;
+}
+
+```
+
+Paramters names dont have to match. Their types have to match.
+
+``` c#
+{
+    WriteLogDelegate log;
+
+    log = new WriteLogDelegate(ReturnMessage);
+    // another way to do the same that above line
+    log = ReturnMessage;
+
+    var result = log("Hello!");
+}
+```
+
+
+## Multi-cast delegates
+``` c#
+{
+    WriteLogDelegate log = ReturnMesage;
+
+    log += ReturnMessage;
+
+    var result = log("Hello!");
+}
+```
+
+
+
+## Events
+
+It is something that happens when other thing happens. :)
+Example - button click. 
+
+
+We need to trigger an event. To do this we can use delegate. We do not know what it will be used for. However we want to inform that something has happened. 
+
+Example - we need to make an event everytime grade is addes to our book. 
+
+Generally we define delgate in a separate file. The rule is one file per type. 
+
+Delegate for an event has typically two parameters
+1. object sender
+2. EventArgs args
+
+Example of a delgate for an event:
+``` c#
+    public delegate void GradeAddedDelegate(object sender, EventArgs args);
+```
+
+
+Event is a member of a class.
+``` c#
+public event GradeAddedDelegate GradeAdded;
+```
+
+And when we want to raise the event we use 
+``` c#
+if(GradeAdded != null)
+{
+    GradeAdded(this, new EventArgs());
+}
+```
+
+## Subscribing to an Event
+
+Handling events
+
+wherever I have got an access to object. 
+
+Static memeber can reach only another static members of the class. So that in static class Main we can reach staic method that will match requirements of event delegate. 
+
+``` c#
+static void OnGradeAdded(object sender, EventArgs e)
+{
+            
+}
+```
+
+Now we can add a method OnGradeAdded to GradeAdded event of an object. 
+
+``` c#
+book.GradeAdded += OnGradeAdded;
+```
+
+we can add as many methods as we want. 
+
+we can also susbstract methods from an event in this way:
+``` c#
+book.GradeAdded -= OnGradeAddded;
+```
+
+
