@@ -866,3 +866,145 @@ book.GradeAdded -= OnGradeAddded;
 ```
 
 
+## Object Oriented Progamming in C#
+There are threee pilars of OOP
+1. Encapsulation
+2. Inheritance 
+3. Polimorphism 
+
+
+Encapsulation - hideing implemantation details.
+Inheritance  - reusing code between similar classes. 
+Polimorphism - allows us to have objects of the same type that behave differently.
+
+
+### Inheritance 
+
+DRY - Don't Repeat Yourself
+
+Example of inheritance 
+``` c#
+public class Book : NamedObject
+{
+
+}
+
+```
+Class book inherits from base class NamedObject
+
+### Chaining contructors
+If base class has got a constructor that requires a parameter we need to get this parameter from derived class. So that we need to inherit it from base class cnostructor in a derrived class constructor. 
+
+Example
+``` c#
+// base class 
+    public class NamedObject 
+    {
+        public NamedObject(string name)
+        {
+            Name = name;
+        }
+
+        public string Name{
+            get;
+            set;
+        }
+    }
+
+// derrived class
+    public class Book : NamedObject
+    {
+        public Book(string name) : base(name)
+        {
+            Name = name;
+            grades = new List<double>();
+        }
+    ...
+
+```
+
+
+### Deriving from System.Object
+
+In a C# every class has got a base class. Even if it is not specified, everything derrives from System.Object.
+
+keyword object is the same as System.Object
+
+
+### Abstract class
+
+We can use abstract class with an abstract method when we want to have a base class but we dont know implementation of a method on this level. Everything that derives from this abstract base class has to include an implementation of this abstract class. 
+
+To indicate that method is an implementation of inherited abstract class we need to use an "override" keyword.
+
+``` c#
+public override void AddGrade(double grade)
+```
+
+
+### Interface
+
+Another way to ensure encapsulation and polymorphism in C# is to define an Interface. 
+
+Interface doesn't include any implementation details. Abstract class can include some interpretation details. Interface only describes list of members that should be available in a specific type. 
+
+Example of an interface
+``` c#
+    public interface InMemoryBook
+    {
+        void AddGrade(double grade);
+        Statistics GetStatistics();
+        string Name {get;}
+        event GradeAddedDelegate GradeAdded;
+        
+    }
+```
+
+Example of interface implementation
+``` c#
+public class Example : BaseClass, Interf1, Interf2
+{
+    //
+}
+```
+
+Class can implement 0 or many interface. There is no limit like in inheritance. 
+
+### Virtual keyword
+we need to use virtual keyword with a member of a base class when we want to allowed derrived class to override the implementation from a base class. 
+
+abstract member is implicitly virtual. 
+
+
+### Using IDisposable
+Generally in C# we don't have to care about memory. GC will free resources but we do not have any impact on when it will do that. In some cases we want to free resource immediatley. Classes that allow for this behaviour implement interface IDisposable. 
+
+It is important when we use FileWriter class. We cannot wirte in other stream unless we dispose the first stream. 
+
+We can do this for example in this way:
+``` c#
+var writer = File.AppendText($"{Name}.txt");
+try
+{
+    writer.WriteLine(grade);
+}
+finally{
+    writer.Dispose();
+}
+
+```
+
+but there is a common practice in C# to do this like that:
+we create disposble object in using clause and then it will be automatically dispose after execution of following blokc of code.
+
+``` c#
+using(var writer = File.AppendText($"{Name}.txt"))
+{
+    writer.WriteLine(grade);
+}
+
+```
+After the end of the using block of code C# will automatically dispose writer.
+
+
+

@@ -5,9 +5,42 @@ namespace GradeBook
 {
     public delegate void GradeAddedDelegate(object sender, EventArgs args);
 
-    public class Book
+    public class NamedObject 
     {
-        public Book(string name) 
+        public NamedObject(string name)
+        {
+            Name = name;
+        }
+
+        public string Name{
+            get;
+            set;
+        }
+    }
+
+    public abstract class Book : NamedObject, IBook
+    {
+        public Book(string name) : base(name)
+        {
+        }
+
+        public abstract event GradeAddedDelegate GradeAdded;
+        public abstract void AddGrade(double grade);
+        public abstract Statistics GetStatistics();
+    }
+
+    public interface IBook
+    {
+        void AddGrade(double grade);
+        Statistics GetStatistics();
+        string Name {get;}
+        event GradeAddedDelegate GradeAdded;
+        
+    }
+
+    public class InMemoryBook : Book
+    {
+        public InMemoryBook(string name) : base(name)
         {
             Name = name;
             grades = new List<double>();
@@ -39,7 +72,7 @@ namespace GradeBook
             }
         }
 
-        public void AddGrade(double grade)
+        public override void AddGrade(double grade)
         {
             if(grade <= 100 && grade >= 0)
             {
@@ -55,58 +88,21 @@ namespace GradeBook
                 throw new ArgumentException($"Ivalid {nameof(grade)}");
             }   
         }
-        public event GradeAddedDelegate GradeAdded;
+        public override event GradeAddedDelegate GradeAdded;
 
         public bool IsGradeInBook(double grade)
         {
             return grades.Contains(grade);
         }
 
-        public Statistics GetStatistics()
+        public override Statistics GetStatistics()
         {
-            var result = new Statistics();
-            
-            result.Low = double.MaxValue;
-            result.High = double.MinValue;
-            result.Average = 0.0;
-
-            var index = 0;
-            do 
-            {
-                result.Low = Math.Min(grades[index], result.Low);
-                result.High = Math.Max(grades[index], result.High);
-                result.Average += grades[index];
-                index += 1;
-            } while (index < grades.Count);
-            result.Average /= grades.Count;
-
-            switch(result.Average)
-            {
-                case var d when d >= 90.0:
-                    result.LetterGrade = 'A';
-                    break;
-                
-                case var d when d >= 80.0:
-                    result.LetterGrade = 'B';
-                    break;
-                
-                case var d when d >= 70.0:
-                    result.LetterGrade = 'C';
-                    break;
-                
-                case var d when d >= 60.0:
-                    result.LetterGrade = 'D';
-                    break;
-
-                default:
-                    result.LetterGrade = 'F';
-                    break;
-            }
+            var result = new Statistics(grades);
             return result;
         }
 
         private List<double> grades;
-        public string Name;
+        
         
     }
 }
