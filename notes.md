@@ -1008,3 +1008,14 @@ After the end of the using block of code C# will automatically dispose writer.
 
 
 
+
+## Catching up with the Latest in C#
+
+C# 8.0 allows us to define if object can be nullable or not. If we want an object to accept null assignments we need to use '?' in the end of type delcaration. 
+
+## Further things to learn
+
+1. Generics - C# Generics course by Scott Allen
+2. Async C# - Aysnchronous C# 5.0 by Jon Skeet
+3. LINQ - LINQ Fundamentals by Scott Allen
+4. Effective C# - C# Programming Paradigms by Scott Allen
